@@ -1,7 +1,8 @@
 #ifndef GRAFO_H
 #define GRAFO_H
 
-#include <list>
+#include <QHash>
+#include <QList>
 #include <queue>
 #include <iostream>
 
@@ -9,20 +10,14 @@ using namespace std;
 
 class Grafo {
 private:
-	int v;	// Número de vértices
-	list<int> *aresta;	// Lista de arestas
-	int *peso;
-	int qtdArestas;
+	QMultiHash<QString, int> hashAdj;
 
 public:
 	Grafo();
-	Grafo(int v);
-	void adicionaAresta(int i, int v1, int v2);
+	void setAdjacencias(QString v1, QString v2);
+	QList<int> getListAdj();
+	int size();
 
-	int getQtdArestas();
-	int getPeso(int aresta);
-	list<int>::iterator getAresta(int i);
-	void getPesos();
 };
 
 

@@ -5,58 +5,42 @@ Grafo::Grafo()
 
 }
 
-Grafo::Grafo(int v) {
-	this->v = v;
-	aresta = new list<int>[v];
-	peso = new int[v];
-	qtdArestas = 0;
-}
+void Grafo::setAdjacencias(QString v1, QString v2)
+{
+	/****************************************************************************************\
+	Cria um hash para a matriz de adjacências.
+	O hash suporta multiplos valores para uma chave, sendo que:
+		1) O primeiro valor na chave representa o vértice de partida no grafo direcionado;
+		2) O segundo valor na chave representa o vértice de destino;
+		3) O terceiro valor na chave representa o peso;
+		4) A chave representa o índice.
+	\****************************************************************************************/
 
-void Grafo::adicionaAresta(int i, int v1, int v2) {
-	if(aresta[0].empty()) {
-		// Adiciona vértice v2 à lista de vértices adjacentes de v1
-		aresta[qtdArestas].push_back(v2);
-		aresta[qtdArestas].push_back(v1);
-		qtdArestas++;
-		peso[0] = 1;
+	if(hashAdj.contains(v1+"_"+v2)) {
+		int peso = hashAdj.value(v1+"_"+v2);
+		hashAdj.replace(v1+"_"+v2, peso+1);
 	}
 	else {
-		int cont = 0;
-		list<int>::iterator it;
-
-		while(cont < i) {
-			it = aresta[cont].begin();
-			if(*it == v1 && *it++ == v2) {
-				peso[cont] += 1;
-				break;
-			}
-			else {
-
-				if(cont == qtdArestas) {
-					// Adiciona vértice v2 à lista de vértices adjacentes de v1
-					aresta[qtdArestas].push_back(v2);
-					aresta[qtdArestas].push_back(v1);
-					qtdArestas++;
-					peso[qtdArestas-1] += 1;
-					break;
-				}
-			}
-			cont++;
-		}
+		hashAdj.insert(v1+"_"+v2, v1.toInt());
+		hashAdj.insert(v1+"_"+v2, v2.toInt());
+		hashAdj.insert(v1+"_"+v2, 1);
 	}
 }
 
-int Grafo::getQtdArestas()
+QList<int> Grafo::getListAdj()
 {
-	return qtdArestas;
+	QList<int> adj[hashAdj.size()];
+	int i = 0;
+	QMultiHash<QString, int>::iterator it = hashAdj.begin();
+	while(it != hashAdj.end() && i < hashAdj.size()) {
+		adj[i] = hashAdj.values(it.key());
+		++it;
+	}
+	return *adj;
 }
 
-int Grafo::getPeso(int aresta)
+int Grafo::size()
 {
-	return peso[aresta];
+	return hashAdj.size();
 }
 
-list<int>::iterator Grafo::getAresta(int i)
-{
-	return aresta[i].begin();
-}

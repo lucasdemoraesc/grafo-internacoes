@@ -11,7 +11,7 @@ int main(void)
 {
 	setlocale(LC_ALL, "");
 
-	Grafo grafo(TAM);
+	Grafo grafo;
 	ifstream arq("rdgo1201.csv");	// Arquivo usado
 	string linha;					// String para armazenar o conteúdo da linha lida
 	QString m_resid;				// String para armazenar o municipio de residencia
@@ -44,7 +44,7 @@ int main(void)
 				}
 			}
 
-			grafo.adicionaAresta(linhaAtual, m_resid.toInt(), m_dest.toInt());
+			grafo.setAdjacencias(m_resid, m_dest);
 
 			linha.erase();
 			m_resid.clear();
@@ -54,11 +54,12 @@ int main(void)
 		}
 	}
 
-	cout << "Quantidade de arestas: " << grafo.getQtdArestas() << endl;
-	list<int>::iterator it;
-	for(int i = 0; i < grafo.getQtdArestas(); i++) {
-		it = grafo.getAresta(i);
-		cout << "Aresta " << i << ": [" << *it << "]---->[" << *it++ << "]\tPeso: " << grafo.getPeso(i) << endl;
+	int cont = 0;
+	QList<int> adj = grafo.getListAdj();
+	QList<int>::iterator it;
+	while (cont < grafo.size()) {
+		it = adj[cont].begin();
 	}
+
 	return 0;
 }

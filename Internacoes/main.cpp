@@ -1,8 +1,6 @@
 #include <QCoreApplication>
 #include <fstream>
-#include <string.h>
 #include "grafo.h"
-
 using namespace std;
 
 #define TAM 28427
@@ -28,7 +26,8 @@ int main(void)
 	if(arq.is_open() && arq.good()) {
 		while(!arq.fail() && linhaAtual < TAM) {
 
-			arq >> linha;	// Lê linha do arquivo;
+			// Lê linha do arquivo;
+			arq >> linha;
 			passouVirgula = false;
 
 			// Quebrar linha para dividir municipio de residencia e destino
@@ -44,22 +43,14 @@ int main(void)
 				}
 			}
 
-			grafo.setAdjacencias(m_resid, m_dest);
+			grafo.setAdjacencias(m_resid+"--->"+m_dest);
 
 			linha.erase();
 			m_resid.clear();
 			m_dest.clear();
-
 			linhaAtual++;
 		}
 	}
-
-	int cont = 0;
-	QList<int> adj = grafo.getListAdj();
-	QList<int>::iterator it;
-	while (cont < grafo.size()) {
-		it = adj[cont].begin();
-	}
-
+	grafo.showAdj();
 	return 0;
 }

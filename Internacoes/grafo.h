@@ -2,23 +2,18 @@
 #define GRAFO_H
 
 #include <QHash>
-#include <QList>
-#include <queue>
 #include <iostream>
 
 using namespace std;
 
 class Grafo {
 private:
-	QMultiHash<QString, int> hashAdj;
+	QHash<QString, int> hashAdj;
 
 public:
 	Grafo();
-	void setAdjacencias(QString v1, QString v2);
-	QList<int> getListAdj();
-	int size();
-
+	void setAdjacencias(QString v);
+	void showAdj();
 };
-
 
 #endif // GRAFO_H

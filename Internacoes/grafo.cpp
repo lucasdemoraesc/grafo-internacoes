@@ -5,42 +5,29 @@ Grafo::Grafo()
 
 }
 
-void Grafo::setAdjacencias(QString v1, QString v2)
+void Grafo::setAdjacencias(QString v)
 {
-	/****************************************************************************************\
-	Cria um hash para a matriz de adjacências.
-	O hash suporta multiplos valores para uma chave, sendo que:
-		1) O primeiro valor na chave representa o vértice de partida no grafo direcionado;
-		2) O segundo valor na chave representa o vértice de destino;
-		3) O terceiro valor na chave representa o peso;
-		4) A chave representa o índice.
-	\****************************************************************************************/
+	/***********************************************************\
+					Cria um hash de adjacências.
+		  A chave do hash é formada pelos valores dos vértices.
+			O valor em uma chave representa o peso da aresta.
+	\***********************************************************/
 
-	if(hashAdj.contains(v1+"_"+v2)) {
-		int peso = hashAdj.value(v1+"_"+v2);
-		hashAdj.replace(v1+"_"+v2, peso+1);
+	if(hashAdj.contains(v)) {
+		int peso = hashAdj.value(v);
+		hashAdj.insert(v, peso+1);
 	}
 	else {
-		hashAdj.insert(v1+"_"+v2, v1.toInt());
-		hashAdj.insert(v1+"_"+v2, v2.toInt());
-		hashAdj.insert(v1+"_"+v2, 1);
+		hashAdj.insert(v, 1);
 	}
 }
 
-QList<int> Grafo::getListAdj()
+void Grafo::showAdj()
 {
-	QList<int> adj[hashAdj.size()];
-	int i = 0;
-	QMultiHash<QString, int>::iterator it = hashAdj.begin();
-	while(it != hashAdj.end() && i < hashAdj.size()) {
-		adj[i] = hashAdj.values(it.key());
-		++it;
+	QHashIterator<QString, int> i(hashAdj);
+	while (i.hasNext()) {
+		i.next();
+		cout << "|" << i.key().toStdString() << "| Peso: " << i.value() << endl;
 	}
-	return *adj;
+	cout << "\nQuantidade de arestas: " << hashAdj.size() << endl;
 }
-
-int Grafo::size()
-{
-	return hashAdj.size();
-}
-
